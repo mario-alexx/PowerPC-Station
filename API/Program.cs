@@ -19,4 +19,18 @@ var app = builder.Build();
 
 app.MapControllers();
 
+try
+{
+  using IServiceScope scope = app.Services.CreateScope();
+  IServiceProvider services = scope.ServiceProvider;
+  var context = services.GetRequiredService<StoreContext>();
+  await context.Database.MigrateAsync();
+  await StoreContextSeed.SeedAsync(context);
+}
+catch (Exception ex)
+{
+  Console.WriteLine(ex);
+  throw;
+}
+
 app.Run();
