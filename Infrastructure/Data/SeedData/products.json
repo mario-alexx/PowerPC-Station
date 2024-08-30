@@ -1,0 +1,137 @@
+[
+  {
+    "Name": "HyperX Alloy FPS Pro Keyboard",
+    "Description": "Mechanical gaming keyboard with Cherry MX Red switches and RGB backlight.",
+    "Price": 43,
+    "PictureUrl": "/images/products/hyperx_alloy_origins.png",
+    "Type": "Peripherals",
+    "Brand": "HyperX",
+    "QuantityInStock": 27
+  },
+  {
+    "Name": "Logitech G502 HERO Mouse",
+    "Description": "Wired gaming mouse with HERO sensor, adjustable DPI, and customizable weights.",
+    "Price": 35,
+    "PictureUrl": "/images/products/logitechG502Hero.png",
+    "Type": "Peripherals",
+    "Brand": "Logitech",
+    "QuantityInStock": 50
+  },
+  {
+    "Name": "Dell UltraSharp U2720Q Monitor",
+    "Description": "27-inch 4K UHD monitor with IPS technology, HDR support, and a wide color gamut.",
+    "Price": 299,
+    "PictureUrl": "/images/products/DellUltraSharp25.png",
+    "Type": "Display",
+    "Brand": "Dell",
+    "QuantityInStock": 15
+  },
+  {
+    "Name": "NVIDIA GeForce RTX 3080 Graphics Card",
+    "Description": "High-end graphics card with 12GB GDDR6 memory, ray tracing, and DLSS support.",
+    "Price": 799,
+    "PictureUrl": "/images/products/NvidiaRtx3080.png",
+    "Type": "Component",
+    "Brand": "NVIDIA",
+    "QuantityInStock": 8
+  },
+  {
+    "Name": "AMD Ryzen 7 5800X CPU",
+    "Description": "8-core, 16-thread processor with a base clock of 3.8GHz and boost up to 4.7GHz.",
+    "Price": 329,
+    "PictureUrl": "/images/products/Ryzen7_5800X.png",
+    "Type": "Component",
+    "Brand": "AMD",
+    "QuantityInStock": 22
+  },
+  {
+    "Name": "ASUS ROG Strix X570-E Gaming Motherboard",
+    "Description": "ATX motherboard with PCIe 4.0 support, Wi-Fi 6, and Aura Sync RGB lighting.",
+    "Price": 179,
+    "PictureUrl": "/images/products/AsusX770-e.png",
+    "Type": "Component",
+    "Brand": "ASUS",
+    "QuantityInStock": 10
+  },
+  {
+    "Name": "Corsair Vengeance RGB Pro 16GB RAM",
+    "Description": "16GB (2x8GB) DDR4 RAM module with RGB lighting and a frequency of 3200MHz.",
+    "Price": 89,
+    "PictureUrl": "/images/products/VENGEANCE-RGB-PRO.png",
+    "Type": "Component",
+    "Brand": "Corsair",
+    "QuantityInStock": 30
+  },
+  {
+    "Name": "EVGA SuperNOVA 650 G5 Power Supply",
+    "Description": "650W fully modular power supply with 80+ Gold certification and eco mode.",
+    "Price": 99,
+    "PictureUrl": "/images/products/EVGA_SuperNova650.png",
+    "Type": "Component",
+    "Brand": "EVGA",
+    "QuantityInStock": 18
+  },
+  {
+    "Name": "Samsung 970 EVO Plus 1TB SSD",
+    "Description": "1TB NVMe solid-state drive with sequential read speeds up to 3500MB/s.",
+    "Price": 149,
+    "PictureUrl": "/images/products/Samsung970_1TB.png",
+    "Type": "Storage",
+    "Brand": "Samsung",
+    "QuantityInStock": 25
+  },
+  {
+    "Name": "Western Digital Blue 2TB HDD",
+    "Description": "2TB 3.5-inch hard disk drive with 7200 RPM and 256MB cache for reliable storage.",
+    "Price": 59,
+    "PictureUrl": "/images/products/WD_Blue2TB.png",
+    "Type": "Storage",
+    "Brand": "Western Digital",
+    "QuantityInStock": 40
+  },
+  {
+    "Name": "NZXT H510 Mid-Tower Case",
+    "Description": "Mid-tower computer case with tempered glass side panel and front I/O USB-C port.",
+    "Price": 69,
+    "PictureUrl": "/images/products/Nzxt_H510-MT.png",
+    "Type": "Component",
+    "Brand": "NZXT",
+    "QuantityInStock": 12
+  },
+  {
+    "Name": "Cooler Master MF120R ARGB Cooling Fan",
+    "Description": "120mm case fan with customizable addressable RGB lighting and silent operation.",
+    "Price": 15,
+    "PictureUrl": "/images/products/CM-MF120R-argb.png",
+    "Type": "Component",
+    "Brand": "Cooler Master",
+    "QuantityInStock": 35
+  },
+  {
+    "Name": "Razer Kraken X Gaming Headset",
+    "Description": "Wired gaming headset with 7.1 surround sound and ultra-lightweight design.",
+    "Price": 59,
+    "PictureUrl": "/images/products/Razer-KrakenX.png",
+    "Type": "Peripherals",
+    "Brand": "Razer",
+    "QuantityInStock": 20
+  },
+  {
+    "Name": "Logitech C920 HD Pro Webcam",
+    "Description": "1080p HD webcam with stereo microphones and automatic light correction.",
+    "Price": 45,
+    "PictureUrl": "/images/products/Logitech_C920HD.png",
+    "Type": "Peripherals",
+    "Brand": "Logitech",
+    "QuantityInStock": 25
+  },
+  {
+    "Name": "Seagate Backup Plus Portable 4TB External Hard Drive",
+    "Description": "4TB portable external hard drive with USB 3.0 and automatic backup software.",
+    "Price": 120,
+    "PictureUrl": "/images/products/Seagate_Backup_Plus4TB.png",
+    "Type": "Storage",
+    "Brand": "Seagate",
+    "QuantityInStock": 16
+  }
+]
