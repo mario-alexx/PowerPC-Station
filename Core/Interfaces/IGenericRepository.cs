@@ -80,4 +80,11 @@ public interface IGenericRepository<T> where T : BaseEntity
   /// </summary>
   /// <param name="id">The unique identifier of the entity.</param>
   bool Exists(int id);
+
+  /// <summary>
+  /// Counts the number of entities that match the provided specification asynchronously.
+  /// </summary>
+  /// <param name="spec">The specification that defines the criteria for counting the entities.</param>
+  /// <returns>The number of entities that match the specification.</returns>
+  Task<int> CountAsync(ISpecification<T> spec);
 }
