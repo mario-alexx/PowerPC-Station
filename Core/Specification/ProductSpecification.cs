@@ -8,17 +8,18 @@ namespace Core.Specification;
 public class ProductSpecification : BaseSpecification<Product>
 {
   /// <summary>
-  /// Initializes a new instance of the <see cref="ProductSpecification"/> class with optional filtering criteria.
+  /// Initializes a new instance of the <see cref="ProductSpecification"/> class with filtering parameters for products.
   /// </summary>
-  /// <param name="brand">The brand filter to apply to the products; or null to apply no brand filtering.</param>
-  /// <param name="type">The type filter to apply to the products; or null to apply no type filtering.</param>
-  /// <param name="sort">The sorting option to apply to the products; or null to apply no specific sorting.</param>
-  public ProductSpecification(string? brand, string? type, string? sort) : base(x =>
-    (string.IsNullOrWhiteSpace(brand) || x.Brand == brand) && 
-    (string.IsNullOrWhiteSpace(type) || x.Type == type)
+  /// <param name="specParams">The specification parameters that define the search criteria, brands, and types to filter the products.</param>
+  public ProductSpecification(ProductSpecParams specParams) : base(x =>
+    (string.IsNullOrEmpty(specParams.Search) || x.Name.ToLower().Contains(specParams.Search)) &&
+    (specParams.Brands.Count == 0 || specParams.Brands.Contains(x.Brand)) && 
+    (specParams.Types.Count == 0 || specParams.Types.Contains(x.Type))
   )
   {
-    switch (sort)
+    ApplyPaging(specParams.PageSize * (specParams.PageIndex - 1), specParams.PageSize);
+
+    switch (specParams.Sort)
     {
       case "priceAsc":
         AddOrderBy(x => x.Price);
