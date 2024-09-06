@@ -31,6 +31,28 @@ public interface ISpecification<T>
   /// </summary>
   /// <value>True if the query should return distinct results; otherwise, false.</value>
   bool IsDistinct {get;}
+
+  /// <summary>
+  /// Gets the number of entities to take (for pagination purposes).
+  /// </summary>
+  int Take{get;}
+
+  /// <summary>
+  /// Gets the number of entities to skip (for pagination purposes).
+  /// </summary>
+  int Skip{get;}
+
+  /// <summary>
+  /// Indicates whether pagination is enabled.
+  /// </summary>
+  bool IsPagingEnabled {get;}
+
+  /// <summary>
+  /// Applies the specified filtering criteria, ordering, and pagination to the given query.
+  /// </summary>
+  /// <param name="query">The query to which the criteria will be applied.</param>
+  /// <returns>The query with the criteria applied.</returns>
+  IQueryable<T> ApplyCriteria(IQueryable<T> query);
 }
 
 /// <summary>
