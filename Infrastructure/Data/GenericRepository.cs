@@ -27,6 +27,16 @@ public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
     _context.Set<T>().Add(entity);
   }
 
+  /// <inheritdoc/>
+  public async Task<int> CountAsync(ISpecification<T> spec)
+  {
+    var query = _context.Set<T>().AsQueryable();
+
+    query = spec.ApplyCriteria(query);
+
+    return await query.CountAsync();
+  }
+
   /// <inheritdoc />
   public bool Exists(int id)
   {
