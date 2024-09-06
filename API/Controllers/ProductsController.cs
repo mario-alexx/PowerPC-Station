@@ -5,30 +5,23 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace API.Controllers
 {
-
   /// <summary>
   /// API controller for managing products in the store.
   /// <param name="_repo">The product repository used to interact with the data store.</param>
   /// </summary>
-  [ApiController]
-  [Route("api/[controller]")]
-  public class ProductsController(IGenericRepository<Product> _repo) : ControllerBase
+  public class ProductsController(IGenericRepository<Product> _repo) : BaseApiController
   {
     /// <summary>
-    /// Retrieves a list of products with optional filters for brand, type, and sorting.
+    /// Gets a paginated list of products based on the provided filtering and pagination parameters.
     /// </summary>
-    /// <param name="brand">The brand filter for the products.</param>
-    /// <param name="type">The type filter for the products.</param>
-    /// <param name="sort">The sorting option for the products.</param>
-    /// <returns>A task that represents the asynchronous operation. The task result contains a list of products.</returns>
+    /// <param name="specParams">The parameters used for filtering, sorting, and paginating products.</param>
+    /// <returns>A paginated list of products that match the specified criteria.</returns>
     [HttpGet]
-    public async Task<ActionResult<IReadOnlyList<Product>>> GetProducts(string? brand, string? type, string? sort) 
+    public async Task<ActionResult<IReadOnlyList<Product>>> GetProducts([FromQuery] ProductSpecParams specParams) 
     {
-      var spec = new ProductSpecification(brand, type, sort);
-
-      var products = await _repo.ListAsync(spec);
-
-      return Ok(products);
+      var spec = new ProductSpecification(specParams);
+      var result = await CreatePagedResult(_repo, spec, specParams.PageIndex, specParams.PageSize);
+      return result;
     }
 
     /// <summary>
