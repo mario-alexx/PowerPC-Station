@@ -10,9 +10,9 @@ namespace Core.Specification;
 public class BaseSpecification<T>(Expression<Func<T, bool>>? criteria) : ISpecification<T>
 {
   /// <summary>
-    /// Initializes a new instance of the <see cref="BaseSpecification{T}"/> class with an optional criteria expression.
-    /// </summary>
-    /// <param name="criteria">The criteria expression used to filter entities; or null if no filtering is applied.</param>
+  /// Initializes a new instance of the <see cref="BaseSpecification{T}"/> class with an optional criteria expression.
+  /// </summary>
+  /// <param name="criteria">The criteria expression used to filter entities; or null if no filtering is applied.</param>
   public BaseSpecification() : this(null) {}
 
   /// <summary>
@@ -33,6 +33,20 @@ public class BaseSpecification<T>(Expression<Func<T, bool>>? criteria) : ISpecif
   /// Gets a value indicating whether the query should return distinct results.
   /// </summary>
   public bool IsDistinct {get; private set;}
+
+  public int Take {get; private set;}
+
+  public int Skip {get; private set;}
+
+  public bool IsPagingEnabled {get; private set;}
+
+  public IQueryable<T> ApplyCriteria(IQueryable<T> query)
+  {
+    if(Criteria != null)
+      query = query.Where(Criteria);
+    
+    return query;
+  }
 
   /// <summary>
   /// Applies an ascending order expression to the specification.
@@ -59,6 +73,13 @@ public class BaseSpecification<T>(Expression<Func<T, bool>>? criteria) : ISpecif
   {
     IsDistinct = true;
   }
+
+  protected void ApplyPaging(int skip, int take) 
+  {
+    Skip = skip;
+    Take = take;
+    IsPagingEnabled = true;
+  }
 }
 
 /// <summary>
@@ -69,7 +90,7 @@ public class BaseSpecification<T>(Expression<Func<T, bool>>? criteria) : ISpecif
 public class BaseSpecification<T, TResult>(Expression<Func<T, bool>>? criteria)
   : BaseSpecification<T>(criteria), ISpecification<T, TResult>
 {
-   /// <summary>
+  /// <summary>
   /// Initializes a new instance of the <see cref="BaseSpecification{T, TResult}"/> class with an optional criteria expression.
   /// </summary>
   /// <param name="criteria">The criteria expression used to filter entities; or null if no filtering is applied.</param>
