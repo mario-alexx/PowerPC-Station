@@ -15,31 +15,28 @@ public class BaseSpecification<T>(Expression<Func<T, bool>>? criteria) : ISpecif
   /// <param name="criteria">The criteria expression used to filter entities; or null if no filtering is applied.</param>
   public BaseSpecification() : this(null) {}
 
-  /// <summary>
-  /// Gets the criteria expression used to filter entities.
-  /// </summary>
+  /// <inheritdoc/>
   public Expression<Func<T, bool>>? Criteria => criteria;
-  /// <summary>
-  /// Gets the expression used to order entities in ascending order.
-  /// </summary>
+
+  /// <inheritdoc/>
   public Expression<Func<T, object>>? OrderBy {get; private set;}
 
-  /// <summary>
-  /// Gets the expression used to order entities in descending order.
-  /// </summary>
+  /// <inheritdoc/>
   public Expression<Func<T, object>>? OrderByDescending {get; private set;}
 
-  /// <summary>
-  /// Gets a value indicating whether the query should return distinct results.
-  /// </summary>
+  /// <inheritdoc/>
   public bool IsDistinct {get; private set;}
 
+  /// <inheritdoc/>
   public int Take {get; private set;}
 
+  /// <inheritdoc/>
   public int Skip {get; private set;}
 
+  /// <inheritdoc/>
   public bool IsPagingEnabled {get; private set;}
 
+  /// <inheritdoc/>
   public IQueryable<T> ApplyCriteria(IQueryable<T> query)
   {
     if(Criteria != null)
