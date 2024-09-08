@@ -1,3 +1,4 @@
+using API.Middleware;
 using Core.Entities;
 using Core.Interfaces;
 using Infrastructure.Data;
@@ -8,24 +9,46 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 
 builder.Services.AddControllers();
+// Add StoreContext to the service container with SQL Server configuration
 builder.Services.AddDbContext<StoreContext>(opt => {
+   // Configures the DbContext to use SQL Server with the connection string from the configuration
   opt.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection"));
 });
+
+// Register the IProductRepository with its concrete implementation
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
+// Register the IGenericRepository with its concrete implementation for any T entity
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+
+// Add support for Cross-Origin Resource Sharing (CORS)
+builder.Services.AddCors();
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 
+// Use the custom middleware for handling exceptions
+app.UseMiddleware<ExceptionMiddleware>();
+
+// Configure the CORS policy to allow specific headers and methods from defined origins
+app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod()
+  .WithOrigins("http://localhost:4200", "https://localhost:4200"));
+
 app.MapControllers();
 
 try
 {
+  // Create a scope for resolving scoped services
   using IServiceScope scope = app.Services.CreateScope();
   IServiceProvider services = scope.ServiceProvider;
+  
+  // Get the StoreContext from the services
   var context = services.GetRequiredService<StoreContext>();
+  
+  // Apply pending migrations to the database
   await context.Database.MigrateAsync();
+ 
+  // Seed the database with initial data
   await StoreContextSeed.SeedAsync(context);
 }
 catch (Exception ex)
