@@ -44,8 +44,7 @@ public class ExceptionMiddleware(IHostEnvironment env, RequestDelegate next)
     context.Response.StatusCode = (int)HttpStatusCode.InternalServerError;
 
     // Create a detailed error response if the environment is Development; otherwise, provide a generic error message.
-    var response = env.IsDevelopment() 
-    var response = env.IsDevelopment() 
+    var response = env.IsDevelopment()  
       ? new ApiErrorResponse(context.Response.StatusCode, ex.Message, ex.StackTrace)
       : new ApiErrorResponse(context.Response.StatusCode, ex.Message, "Internal Server Error");
 

@@ -32,7 +32,7 @@ app.UseMiddleware<ExceptionMiddleware>();
 
 // Configure the CORS policy to allow specific headers and methods from defined origins
 app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod()
-  .WithOrigins("http://localhost:4200", "https://localhost:4200"));
+  .WithOrigins("http://localhost:4200","https://localhost:4200"));
 
 app.MapControllers();
 
