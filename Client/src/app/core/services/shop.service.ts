@@ -57,6 +57,17 @@ export class ShopService {
   }
 
   /**
+   * Retrieves a product by its ID from the API.
+   * 
+   * @param {number} id - The ID of the product to retrieve.
+   * @returns {Observable<Product>} An observable that emits the product details.
+  */
+  getProduct(id: number): Observable<Product> 
+  {
+    return this.http.get<Product>(this.baseUrl + 'products/' + id);
+  }
+
+  /**
    * Fetches the list of available brands and updates the internal brands list.
    * @returns {void}
   */
