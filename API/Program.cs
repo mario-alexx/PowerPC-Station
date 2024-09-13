@@ -2,7 +2,9 @@ using API.Middleware;
 using Core.Entities;
 using Core.Interfaces;
 using Infrastructure.Data;
+using Infrastructure.Services;
 using Microsoft.EntityFrameworkCore;
+using StackExchange.Redis;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -22,6 +24,17 @@ builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepositor
 
 // Add support for Cross-Origin Resource Sharing (CORS)
 builder.Services.AddCors();
+// Register a singleton instance of IConnectionMultiplexer with the Redis connection
+builder.Services.AddSingleton<IConnectionMultiplexer>(config => 
+{
+  var connString = builder.Configuration.GetConnectionString("Redis") ??
+    throw new Exception("Cannot get redis connection string");
+  var configuration = ConfigurationOptions.Parse(connString, true);
+  return ConnectionMultiplexer.Connect(configuration);
+});
+
+// Register the CartService as a singleton implementation of ICartService
+builder.Services.AddSingleton<ICartService, CartService>();
 
 var app = builder.Build();
 
