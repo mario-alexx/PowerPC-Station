@@ -2,15 +2,15 @@
 {
   <mat-card  appearance="raised" routerLink="/shop/{{product.id}}" class="product-card">
     <img class="h-40" src="{{product.pictureUrl}}" alt="image of {{product.name}}">
+    <mat-card-content class="mt-2">
+      <h2 class="text-sm font-semibold uppercase">{{product.name}}</h2>
+      <p class="font-light">{{product.price | currency}}</p>
+    </mat-card-content>
+    <mat-card-actions (click)="$event.stopPropagation()">
+      <button mat-stroked-button (click)="cartService.addItemToCart(product)" class="w-full bg-blue-700 text-white border-zinc-950 hover:bg-blue-500">
+        <mat-icon>add_shopping_cart</mat-icon>
+        Add to cart
+      </button>
+    </mat-card-actions>
   </mat-card>
-  <mat-card-content class="mt-2">
-    <h2 class="text-sm font-semibold uppercase">{{product.name}}</h2>
-    <p class="font-light">{{product.price | currency}}</p>
-  </mat-card-content>
-  <mat-card-actions>
-    <button mat-stroked-button class="w-full bg-blue-700 text-white border-zinc-950 hover:bg-blue-500">
-      <mat-icon>add_shopping_cart</mat-icon>
-      Add to cart
-    </button>
-  </mat-card-actions>
 }
