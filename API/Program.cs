@@ -35,6 +35,11 @@ builder.Services.AddSingleton<IConnectionMultiplexer>(config =>
 
 // Register the CartService as a singleton implementation of ICartService
 builder.Services.AddSingleton<ICartService, CartService>();
+// Adds authorization services to the dependency injection container.
+builder.Services.AddAuthorization();
+// Configures ASP.NET Core Identity to use the AppUser class for user management and adds the API endpoints for Identity.
+builder.Services.AddIdentityApiEndpoints<AppUser>()
+  .AddEntityFrameworkStores<StoreContext>();
 
 var app = builder.Build();
 
@@ -43,11 +48,13 @@ var app = builder.Build();
 // Use the custom middleware for handling exceptions
 app.UseMiddleware<ExceptionMiddleware>();
 
-// Configure the CORS policy to allow specific headers and methods from defined origins
-app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod()
+// Configure the CORS policy to allow specific headers, methods and credentials from defined origins
+app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().AllowCredentials()
   .WithOrigins("http://localhost:4200","https://localhost:4200"));
 
 app.MapControllers();
+// Maps Identity API endpoints under the route "api" using the AppUser class.
+app.MapGroup("api").MapIdentityApi<AppUser>();
 
 try
 {
