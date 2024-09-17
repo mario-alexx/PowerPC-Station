@@ -6,8 +6,7 @@ using Microsoft.EntityFrameworkCore;
 namespace Infrastructure.Data;
 
 /// <summary>
-/// Represents the database context for the store application, 
-/// including identity functionality for users.
+/// Represents the database context for the store application, including identity functionality for users.
 /// </summary>
 /// <param name="options">Options to configure the database context <see cref="IdentityDbContext"/>.</param>
 public class StoreContext(DbContextOptions options) : IdentityDbContext<AppUser>(options)
