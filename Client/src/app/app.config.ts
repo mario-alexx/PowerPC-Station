@@ -8,6 +8,7 @@ import { errorsInterceptor } from './core/interceptors/errors.interceptor';
 import { loadingInterceptor } from './core/interceptors/loading.interceptor';
 import { InitService } from './core/services/init.service';
 import { lastValueFrom } from 'rxjs';
+import { authInterceptor } from './core/interceptors/auth.interceptor';
 
 /**
  * Initializes the application by invoking the InitService to load initial data.
@@ -30,7 +31,11 @@ export const appConfig: ApplicationConfig = {
     provideZoneChangeDetection({ eventCoalescing: true }),
     provideRouter(routes),
     provideAnimationsAsync(),
-    provideHttpClient(withInterceptors([errorsInterceptor, loadingInterceptor])),
+    provideHttpClient(withInterceptors([
+      errorsInterceptor,
+      loadingInterceptor,
+      authInterceptor 
+    ])),
     {
       provide: APP_INITIALIZER,
       useFactory: initializeApp,
