@@ -82,7 +82,7 @@ public class AccountController(SignInManager<AppUser> signInManager) : BaseApiCo
   /// Returns the authentication state of the current user.
   /// </summary>
   /// <returns>An <see cref="ActionResult"/> indicating whether the user is authenticated.</returns>
-  [HttpGet]
+  [HttpGet("auth-status")]
   public ActionResult GetAuthState()
   {
     return Ok(new {IsAuthenticated = User.Identity?.IsAuthenticated ?? false});
