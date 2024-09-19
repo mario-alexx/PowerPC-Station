@@ -127,7 +127,7 @@ export class CartService {
   */
   private deleteCart(): void
   {
-    this.http.delete(this.baseUrl + 'cart' + this.cart()?.id).subscribe({
+    this.http.delete(this.baseUrl + 'cart?id=' + this.cart()?.id).subscribe({
       next: () => {
         localStorage.removeItem('cart_id');
         this.cart.set(null);
@@ -189,7 +189,7 @@ export class CartService {
    * Creates a new cart with an empty item list.
    * @returns A new Cart object.
   */
-  private createCart(): Cart 
+  private createCart(): Cart
   {
     const cart = new Cart();
     localStorage.setItem('cart_id', cart.id);
