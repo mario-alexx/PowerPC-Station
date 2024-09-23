@@ -40,6 +40,8 @@ builder.Services.AddAuthorization();
 // Configures ASP.NET Core Identity to use the AppUser class for user management and adds the API endpoints for Identity.
 builder.Services.AddIdentityApiEndpoints<AppUser>()
   .AddEntityFrameworkStores<StoreContext>();
+// Register the PaymentService as a singleton implementation of IPaymentService
+builder.Services.AddScoped<IPaymentService, PaymentService>();
 
 var app = builder.Build();
 
