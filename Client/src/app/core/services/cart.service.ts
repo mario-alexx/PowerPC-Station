@@ -4,6 +4,7 @@ import { HttpClient } from '@angular/common/http';
 import { Cart, CartItem } from '../../shared/models/cart';
 import { Product } from '../../shared/models/product';
 import { map, Observable, Subscription } from 'rxjs';
+import { DeliveryMethod } from '../../shared/models/deliveryMethod';
 
 /**
  * Service responsible for managing the shopping cart operations.
@@ -23,6 +24,12 @@ export class CartService {
   cart = signal<Cart | null>(null);
 
   /**
+   * Signal to hold the currently selected delivery method.
+   * Starts as null if no delivery method is selected.
+  */
+  selectedDelivery = signal<DeliveryMethod | null>(null);
+
+  /**
    * Computes the total number of items in the cart.
    * @returns The total item count in the cart.
   */
@@ -36,9 +43,10 @@ export class CartService {
   */
   totals = computed(() => {
     const cart = this.cart();
+    const delivery = this.selectedDelivery();
     if(!cart) return null;
     const subtotal = cart.items.reduce( (sum, item) => sum + item.price * item.quantity, 0);
-    const shipping = 0;
+    const shipping = delivery ? delivery.price : 0;
     const discount = 0;
     return {
       subtotal,
@@ -125,7 +133,7 @@ export class CartService {
   /**
    * Deletes the current cart.
   */
-  private deleteCart(): void
+  deleteCart(): void
   {
     this.http.delete(this.baseUrl + 'cart?id=' + this.cart()?.id).subscribe({
       next: () => {
