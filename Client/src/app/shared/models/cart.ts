@@ -7,8 +7,18 @@ export type CartType =
 {
   /** The unique identifier for the cart. */
   id: string;
+  
   /** The list of items in the cart. */
   items: CartItem[];
+
+  /** The ID of the selected delivery method. */
+  deliveryMethodId?: number;
+    
+  /** The ID of the payment intent used for payment. */
+  paymentIntentId?: string;
+  
+  /** The secret key for confirming the payment intent. */
+  clientSecret?: string;
 }
 
 /**
@@ -18,16 +28,22 @@ export type CartItem =
 {
   /** The unique identifier for the product. */
   productId: number;
+
   /** The name of the product. */
   productName: string;
+
   /** The price of the product. */
   price: number;
+
   /** The quantity of the product in the cart. */
   quantity: number;
+
   /** The URL of the product's image. */
   pictureUrl: string;
+
   /** The brand of the product. */
   brand: string;
+  
   /** The type or category of the product. */
   type: string;
 }
@@ -40,6 +56,16 @@ export class Cart implements CartType
 {
   /** The unique identifier for the cart, generated using `nanoid`. */
   id = nanoid();
+  
   /** The list of items in the shopping cart, initialized as an empty array. */
   items: CartItem[] = [];
+
+  /** The ID of the selected delivery method. */
+  deliveryMethodId?: number;
+
+  /** The ID of the payment intent used for payment. */
+  paymentIntentId?: string;
+
+  /** The secret key for confirming the payment intent. */
+  clientSecret?: string;
 }
