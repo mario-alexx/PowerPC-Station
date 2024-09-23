@@ -4,7 +4,7 @@ import { MatFormField, MatLabel } from '@angular/material/form-field';
 import { MatInput } from '@angular/material/input';
 import { RouterLink } from '@angular/router';
 import { CartService } from '../../../core/services/cart.service';
-import { CurrencyPipe } from '@angular/common';
+import { CurrencyPipe, Location } from '@angular/common';
 
 /**
  * This component is responsible for displaying the summary of the order.
@@ -27,4 +27,7 @@ import { CurrencyPipe } from '@angular/common';
 export class OrderSummaryComponent {
   /** Injects the CartService to access cart-related operations. */
   cartService = inject(CartService);
+  
+  /**Injected instance of Location service to handle browser navigation and location actions. */
+  location = inject(Location);
 }
