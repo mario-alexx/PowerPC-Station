@@ -2,7 +2,7 @@ import { inject, Injectable, signal } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Address, User } from '../../shared/models/user';
 import { environment } from '../../../environments/environment';
-import { map, Observable } from 'rxjs';
+import { map, Observable, tap } from 'rxjs';
 
 /**
  * Service responsible for handling user account-related operations such as login, registration, user info retrieval, and logout.
@@ -82,7 +82,14 @@ export class AccountService {
   */
   updateAddress(address: Address): Observable<Object>
   {
-    return this.http.post(this.baseUrl + 'account/address', address);
+    return this.http.post(this.baseUrl + 'account/address', address).pipe(
+      tap( () => {
+        this.currentUser.update(user => {
+          if(user) user.address = address;
+          return user;
+        })
+      })
+    );
   }
 
   /**
