@@ -13,6 +13,7 @@ public class StoreContext(DbContextOptions options) : IdentityDbContext<AppUser>
 {
   public DbSet<Product> Products{ get; set; }
   public DbSet<Address> Addresses{ get; set; }
+  public DbSet<DeliveryMethod> DeliveryMethods{ get; set; }
 
   /// <summary>
   /// Configures the model that was discovered by convention from the entity types exposed in <see cref="DbSet{TEntity}"/> properties on the derived context.
