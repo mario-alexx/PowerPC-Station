@@ -27,6 +27,16 @@ public interface ISpecification<T>
   Expression<Func<T, object>>? OrderByDescending { get; }
 
   /// <summary>
+  /// Gets a list of expressions to include related entities in the query.
+  /// </summary>
+  List<Expression<Func<T, object>>> Includes { get; }
+
+  /// <summary>
+  /// Gets a list of related entity names as strings to include in the query.
+  /// </summary>
+  List<string> IncludeStrings { get; }
+
+  /// <summary>
   /// Gets a value indicating whether the query should return distinct results.
   /// </summary>
   /// <value>True if the query should return distinct results; otherwise, false.</value>
