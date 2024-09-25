@@ -36,13 +36,41 @@ public class BaseSpecification<T>(Expression<Func<T, bool>>? criteria) : ISpecif
   /// <inheritdoc/>
   public bool IsPagingEnabled {get; private set;}
 
+  /// <summary>
+  /// Gets the list of expressions to include related entities in the query.
+  /// </summary>
+  public List<Expression<Func<T, object>>> Includes { get; } = [];
+
+  /// <summary>
+  /// Gets the list of related entity names as strings to include in the query.
+  /// </summary>
+  public List<string> IncludeStrings { get; } = [];
+
   /// <inheritdoc/>
-  public IQueryable<T> ApplyCriteria(IQueryable<T> query)
+   public IQueryable<T> ApplyCriteria(IQueryable<T> query)
   {
     if(Criteria != null)
       query = query.Where(Criteria);
     
     return query;
+  }
+
+  /// <summary>
+  /// Adds an expression to the list of includes to specify related entities in the query.
+  /// </summary>
+  /// <param name="includeExpression">An expression specifying the related entity to include.</param>
+  protected void AddInclude(Expression<Func<T, object>> includeExpression) 
+  {
+    Includes.Add(includeExpression);
+  }
+
+  /// <summary>
+  /// Adds a related entity name as a string to the list of includes.
+  /// </summary>
+  /// <param name="includeString">The name of the related entity to include.</param>
+  protected void AddInclude(string includeString) 
+  {
+    IncludeStrings.Add(includeString);
   }
 
   /// <summary>
@@ -71,6 +99,11 @@ public class BaseSpecification<T>(Expression<Func<T, bool>>? criteria) : ISpecif
     IsDistinct = true;
   }
 
+  /// <summary>
+  /// Applies pagination to the query by specifying the number of records to skip and take.
+  /// </summary>
+  /// <param name="skip">The number of records to skip.</param>
+  /// <param name="take">The number of records to take.</param>
   protected void ApplyPaging(int skip, int take) 
   {
     Skip = skip;
