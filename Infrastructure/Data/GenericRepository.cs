@@ -86,11 +86,6 @@ public class GenericRepository<T> : IGenericRepository<T> where T : BaseEntity
   }
 
   /// <inheritdoc />
-  public async Task<bool> SaveAllAsync()
-  {
-    return await _context.SaveChangesAsync() > 0;
-  }
-  /// <inheritdoc />
   public void Update(T entity)
   {
     _context.Set<T>().Attach(entity);
