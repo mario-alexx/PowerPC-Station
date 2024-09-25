@@ -6,10 +6,11 @@ using Microsoft.AspNetCore.Mvc;
 namespace API.Controllers;
 
 /// <summary>
-/// Controller for handling payment-related actions.
-/// </summary> /// <param name="paymentService">The service for handling payment operations.</param>
-/// <param name="dmRepo">The repository for retrieving delivery methods.</param>
-public class PaymentsController(IPaymentService paymentService, IGenericRepository<DeliveryMethod> dmRepo) 
+/// Controller for managing payments.
+/// </summary>
+/// <param name="paymentService">Service for handling payment operations.</param>
+/// <param name="unit">Unit of Work pattern for accessing repositories and saving changes.</param>
+public class PaymentsController(IPaymentService paymentService, IUnitOfWork unit) 
 : BaseApiController
 { 
   
@@ -36,6 +37,6 @@ public class PaymentsController(IPaymentService paymentService, IGenericReposito
   [HttpGet("delivery-methods")]
   public async Task<ActionResult<IReadOnlyList<DeliveryMethod>>> GetDeliveryMethods() 
   {
-    return Ok(await dmRepo.ListAllAsync());
+    return Ok(await unit.Repository<DeliveryMethod>().ListAllAsync());
   }
 }

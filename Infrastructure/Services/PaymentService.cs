@@ -6,20 +6,15 @@ using Stripe;
 namespace Infrastructure.Services;
 
 /// <summary>
-/// Service responsible for handling payment-related operations for shopping carts.
+/// Service class for handling payment processing.
 /// </summary>
- /// <summary>
-/// Initializes a new instance of the <see cref="PaymentService"/> class.
-/// </summary>
-/// <param name="config">Configuration object for accessing app settings like Stripe API key.</param>
-/// <param name="cartService">Service for handling cart-related operations.</param>
-/// <param name="productRepo">Repository for handling product data.</param>
-/// <param name="dmRepo">Repository for handling delivery method data.</param>
+/// <param name="config">Configuration for accessing environment variables, including API keys.</param>
+/// <param name="cartService">Service for handling shopping cart operations.</param>
+/// <param name="unit">Unit of Work pattern for accessing repositories and saving changes.</param>
 public class PaymentService(
   IConfiguration config, 
   ICartService cartService, 
-  IGenericRepository<Core.Entities.Product> productRepo, 
-  IGenericRepository<DeliveryMethod> dmRepo) 
+  IUnitOfWork unit) 
   : IPaymentService
 {
  
@@ -43,7 +38,7 @@ public class PaymentService(
     // Calculate shipping cost if delivery method is selected
     if(cart.DeliveryMethodId.HasValue) 
     {
-      var deliveryMethod = await dmRepo.GetByIdAsync((int)cart.DeliveryMethodId);
+      var deliveryMethod = await unit.Repository<DeliveryMethod>().GetByIdAsync((int)cart.DeliveryMethodId);
 
       if(deliveryMethod == null) return null; 
 
@@ -53,7 +48,7 @@ public class PaymentService(
     // Update item prices in the cart to match the latest product prices
     foreach (var item in cart.Items)
     {
-      var productItem = await productRepo.GetByIdAsync(item.ProductId);
+      var productItem = await unit.Repository<Core.Entities.Product>().GetByIdAsync(item.ProductId);
 
       if(productItem == null) return null;
 
