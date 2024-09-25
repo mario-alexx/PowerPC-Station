@@ -21,6 +21,8 @@ builder.Services.AddDbContext<StoreContext>(opt => {
 builder.Services.AddScoped<IProductRepository, ProductRepository>();
 // Register the IGenericRepository with its concrete implementation for any T entity
 builder.Services.AddScoped(typeof(IGenericRepository<>), typeof(GenericRepository<>));
+// Registers the UnitOfWork implementation in the dependency injection container
+builder.Services.AddScoped<IUnitOfWork, UnitOfWork>();
 
 // Add support for Cross-Origin Resource Sharing (CORS)
 builder.Services.AddCors();
