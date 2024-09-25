@@ -70,12 +70,6 @@ public interface IGenericRepository<T> where T : BaseEntity
   void Remove(T entity);
 
   /// <summary>
-  /// Asynchronously saves all changes made in the context to the data store.
-  /// </summary>
-  /// <returns>A task that represents the asynchronous save operation. The task result contains a boolean indicating whether the changes were successfully saved.</returns>
-  Task<bool> SaveAllAsync();
-
-  /// <summary>
   /// Checks if an entity exists in the data store by its unique identifier.
   /// </summary>
   /// <param name="id">The unique identifier of the entity.</param>
