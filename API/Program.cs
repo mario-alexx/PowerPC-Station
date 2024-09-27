@@ -1,4 +1,5 @@
 using API.Middleware;
+using API.SignalR;
 using Core.Entities;
 using Core.Interfaces;
 using Infrastructure.Data;
@@ -44,6 +45,8 @@ builder.Services.AddIdentityApiEndpoints<AppUser>()
   .AddEntityFrameworkStores<StoreContext>();
 // Register the PaymentService as a singleton implementation of IPaymentService
 builder.Services.AddScoped<IPaymentService, PaymentService>();
+// Registers SignalR 
+builder.Services.AddSignalR();
 
 var app = builder.Build();
 
@@ -56,9 +59,15 @@ app.UseMiddleware<ExceptionMiddleware>();
 app.UseCors(x => x.AllowAnyHeader().AllowAnyMethod().AllowCredentials()
   .WithOrigins("http://localhost:4200","https://localhost:4200"));
 
+// Configures middleware for authentication, authorization
+app.UseAuthentication();
+app.UseAuthorization();
+
 app.MapControllers();
 // Maps Identity API endpoints under the route "api" using the AppUser class.
 app.MapGroup("api").MapIdentityApi<AppUser>();
+// Configures mapping the notification hub
+app.MapHub<NotificationHub>("/hub/notifications");
 
 try
 {
