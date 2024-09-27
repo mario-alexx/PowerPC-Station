@@ -28,4 +28,15 @@ public class OrderSpecification : BaseSpecification<Order>
     AddInclude("OrderItems");
     AddInclude("DeliveryMethod");
   }
+
+  /// <summary>
+  /// Constructor for retrieving an order by payment intent ID.
+  /// </summary>
+  /// <param name="paymentIntentId">The payment intent ID to filter the order by.</param>
+  /// <param name="isPaymentIntent">A flag to indicate if the query is for a payment intent.</param>
+  public OrderSpecification(string paymentIntentId, bool isPaymentIntent) : base(x => x.PaymentIntentId == paymentIntentId) 
+  {
+    AddInclude("OrderItems");
+    AddInclude("DeliveryMethod");
+  }
 }
