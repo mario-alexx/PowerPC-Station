@@ -96,7 +96,7 @@ public class OrdersController(ICartService cartService, IUnitOfWork unit) : Base
 
     var ordersToReturn = orders.Select(o => o.ToDto()).ToList();
 
-    return Ok(orders);
+    return Ok(ordersToReturn);
   }
 
   /// <summary>
