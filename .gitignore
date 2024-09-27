@@ -479,3 +479,5 @@ $RECYCLE.BIN/
 .idea
 *.db-shm
 *.db-wal
+API/appsettings.json
+Client/src/environments/environment.ts
