@@ -1,7 +1,8 @@
 import { HttpInterceptorFn } from '@angular/common/http';
 import { inject } from '@angular/core';
-import { delay, finalize } from 'rxjs';
+import { delay, finalize, identity } from 'rxjs';
 import { BusyService } from '../services/busy.service';
+import { environment } from '../../../environments/environment';
 
 /**
  * HTTP interceptor that manages the loading state during HTTP requests.
@@ -16,7 +17,7 @@ export const loadingInterceptor: HttpInterceptorFn = (req, next) => {
   busyService.busy();
 
   return next(req).pipe(
-    delay(500),
+    (environment.production ? identity : delay(500)),
     finalize(() => busyService.idle())
   );
 };
