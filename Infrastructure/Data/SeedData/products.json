@@ -18,12 +18,12 @@
     "QuantityInStock": 50
   },
   {
-    "Name": "Dell UltraSharp U2720Q Monitor",
-    "Description": "27-inch 4K UHD monitor with IPS technology, HDR support, and a wide color gamut.",
-    "Price": 299,
-    "PictureUrl": "/images/products/DellUltraSharp25.png",
+    "Name": "Monitor Asus 24' Full Hd Ips 75Hz 5Ms Freesync ",
+    "Description": "23-inch 1080p with IPS technology, HDR support, and a wide color gamut.",
+    "Price": 199,
+    "PictureUrl": "/images/products/asus_monitor24.png",
     "Type": "Display",
-    "Brand": "Dell",
+    "Brand": "ASUS",
     "QuantityInStock": 15
   },
   {
@@ -72,12 +72,12 @@
     "QuantityInStock": 18
   },
   {
-    "Name": "Samsung 970 EVO Plus 1TB SSD",
-    "Description": "1TB NVMe solid-state drive with sequential read speeds up to 3500MB/s.",
-    "Price": 149,
-    "PictureUrl": "/images/products/Samsung970_1TB.png",
-    "Type": "Storage",
-    "Brand": "Samsung",
+    "Name": "GeForce GTX 1660 SUPER™ GAMING X",
+    "Description": "16 SUPER SERIES. SHADERS TURING",
+    "Price": 249,
+    "PictureUrl": "/images/products/gtx_1660_super.png",
+    "Type": "Component",
+    "Brand": "NVIDIA",
     "QuantityInStock": 25
   },
   {

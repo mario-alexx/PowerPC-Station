@@ -12,6 +12,7 @@ import { ShopParams } from '../../shared/models/shopParams';
 import { MatPaginator, PageEvent } from '@angular/material/paginator';
 import { Pagination } from '../../shared/models/pagination';
 import { FormsModule } from '@angular/forms';
+import { EmptyStateComponent } from "../../shared/components/empty-state/empty-state.component";
 
 /**
  * ShopComponent is responsible for displaying and managing the product list and filters in the shop.
@@ -27,9 +28,10 @@ import { FormsModule } from '@angular/forms';
     MatSelectionList,
     MatListOption,
     MatMenuTrigger,
-    MatPaginator, 
-    FormsModule
-  ],
+    MatPaginator,
+    FormsModule,
+    EmptyStateComponent
+],
   templateUrl: './shop.component.html',
   styleUrl: './shop.component.scss'
 })
@@ -86,6 +88,16 @@ export class ShopComponent implements OnInit{
   {
     this.shopService.getBrands();
     this.shopService.getTypes();
+    this.getProducts();
+  }
+
+  /**
+   * Resets the shop filters to their default values by reinitializing the `ShopParams` object.
+   * After resetting, it triggers a product retrieval.
+  */
+  resetFilters(): void
+  {
+    this.shopParams = new ShopParams();
     this.getProducts();
   }
 
