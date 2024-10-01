@@ -20,6 +20,8 @@ export type Order = {
   orderItems: OrderItem[];
   /** The subtotal cost of the order (excluding shipping) */
   subtotal: number;
+  /** Optional discount applied to the order. */
+  discount?: number;
   /** The current status of the order */
   status: string;
   /** The total cost of the order (including shipping) */
@@ -90,4 +92,6 @@ export type OrderToCreate = {
   shippingAddress: ShippingAddress;
   /** Summary of payment information */
   paymentSummary: PaymentSummary;
+
+  discount?: number;
 }
