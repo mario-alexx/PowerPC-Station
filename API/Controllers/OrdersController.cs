@@ -70,6 +70,7 @@ public class OrdersController(ICartService cartService, IUnitOfWork unit) : Base
       PaymentSummary = orderDto.PaymentSummary,
       PaymentIntentId = cart.PaymentIntentId,
       Subtotal = items.Sum(x => x.Price * x.Quantity),
+      Discount =  orderDto.Discount,
       BuyerEmail = email
     };
 
