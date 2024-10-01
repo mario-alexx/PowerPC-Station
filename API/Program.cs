@@ -45,6 +45,8 @@ builder.Services.AddIdentityApiEndpoints<AppUser>()
   .AddEntityFrameworkStores<StoreContext>();
 // Register the PaymentService as a singleton implementation of IPaymentService
 builder.Services.AddScoped<IPaymentService, PaymentService>();
+// Register the CouponService as a singleton implementation of ICouponService
+builder.Services.AddScoped<ICouponService, CouponService>();
 // Registers SignalR 
 builder.Services.AddSignalR();
 
