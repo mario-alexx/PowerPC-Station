@@ -19,6 +19,9 @@ export type CartType =
   
   /** The secret key for confirming the payment intent. */
   clientSecret?: string;
+
+  /** Optional coupon applied to the cart. */
+  coupon?: Coupon;
 }
 
 /**
@@ -68,4 +71,25 @@ export class Cart implements CartType
 
   /** The secret key for confirming the payment intent. */
   clientSecret?: string;
+
+  /** Optional coupon applied to the cart. */
+  coupon?: Coupon;
+}
+
+/** Type representing a coupon. */
+export type Coupon = {
+  /** Name of the coupon. */
+  name: string;
+  
+  /** Amount to be deducted from the total. */
+  amountOff?: number;
+  
+  /** Percentage to be deducted from the total. */
+  percentOff?: number;
+  
+  /** Promotion code associated with the coupon. */
+  promotionCode: string;
+  
+  /** Unique identifier for the coupon. */
+  couponId: string;
 }
