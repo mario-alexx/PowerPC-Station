@@ -92,8 +92,10 @@ public class PaymentsController(IPaymentService paymentService,IUnitOfWork unit,
 
       var order = await unit.Repository<Order>().GetEntityWithSpec(spec) ??
         throw new Exception("Order not found");
+      
+      var orderTotalInCents = (long)Math.Round(order.GetTotal() * 100, MidpointRounding.AwayFromZero);
 
-      if((long)order.GetTotal() * 100 != intent.Amount)
+      if(orderTotalInCents != intent.Amount)
       {
         order.Status = OrderStatus.PaymentMismatch;
       }
@@ -109,7 +111,8 @@ public class PaymentsController(IPaymentService paymentService,IUnitOfWork unit,
 
       if(!string.IsNullOrEmpty(connectionId))
       {
-        await hubContext.Clients.Client(connectionId).SendAsync("OrderCompleteNotification", order.ToDto());
+        await hubContext.Clients.Client(connectionId)
+          .SendAsync("OrderCompleteNotification", order.ToDto());
       }
     }
   }
