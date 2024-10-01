@@ -66,8 +66,8 @@ export class StripeService {
       if(stripe) 
       {
         const cart = await firstValueFrom(this.createOrUpdatePaymentIntent());
-        this.elements = stripe.elements({
-          clientSecret: cart.clientSecret, appearance: {labels: 'floating'}});
+        this.elements = stripe.elements(
+          {clientSecret: cart.clientSecret, appearance: {labels: 'floating'}});
       }
       else 
       {
@@ -195,18 +195,24 @@ export class StripeService {
   }
 
   /**
-   * Creates or updates a payment intent in the system and returns the updated cart with the payment intent details.
-   * @returns An observable that emits the updated cart.
+   * Creates or updates the payment intent.
+   * @returns An observable that resolves to a promise containing the cart data.
   */
-  createOrUpdatePaymentIntent(): Observable<Cart>
+  createOrUpdatePaymentIntent(): Observable<Promise<Cart>> 
   {
     const cart = this.cartService.cart();
+
+    const hasClientSecret = !!cart?.clientSecret;
   
     if(!cart) throw new Error('Problem with cart');
 
     return this.http.post<Cart>(this.baseUrl + 'payments/' + cart.id, {}).pipe(
-      map(cart => {
-        this.cartService.setCart(cart);
+      map(async cart => {
+        if(!hasClientSecret)
+        {
+          await firstValueFrom(this.cartService.setCart(cart));
+          return cart;
+        }
         return cart;
       })
     );

@@ -1,9 +1,9 @@
 import { computed, inject, Injectable, signal } from '@angular/core';
 import { environment } from '../../../environments/environment';
 import { HttpClient } from '@angular/common/http';
-import { Cart, CartItem } from '../../shared/models/cart';
+import { Cart, CartItem, Coupon } from '../../shared/models/cart';
 import { Product } from '../../shared/models/product';
-import { map, Observable, Subscription } from 'rxjs';
+import { firstValueFrom, map, Observable, Subscription, tap } from 'rxjs';
 import { DeliveryMethod } from '../../shared/models/deliveryMethod';
 
 /**
@@ -23,19 +23,16 @@ export class CartService {
   /** Holds the current shopping cart state */
   cart = signal<Cart | null>(null);
 
+  /** Computed property that returns the total item count in the cart. */
+  itemCount = computed(() => {
+    return this.cart()?.items.reduce((sum, item) => sum + item.quantity, 0)
+  });
+
   /**
    * Signal to hold the currently selected delivery method.
    * Starts as null if no delivery method is selected.
   */
   selectedDelivery = signal<DeliveryMethod | null>(null);
-
-  /**
-   * Computes the total number of items in the cart.
-   * @returns The total item count in the cart.
-  */
-  itemCount = computed(() => {
-    return this.cart()?.items.reduce( (sum, item) => sum + item.quantity, 0);
-  });
 
   /**
    * Computes the cart totals including subtotal, shipping, discount, and total amount.
@@ -44,15 +41,32 @@ export class CartService {
   totals = computed(() => {
     const cart = this.cart();
     const delivery = this.selectedDelivery();
+
     if(!cart) return null;
-    const subtotal = cart.items.reduce( (sum, item) => sum + item.price * item.quantity, 0);
+    const subtotal = cart.items.reduce((sum, item) => 
+      sum + item.price * item.quantity, 0);
+
+    let discountValue = 0
+
+    if(cart.coupon)
+    {
+      if(cart.coupon.amountOff)
+      {
+        discountValue = cart.coupon.amountOff;
+      }
+      else if(cart.coupon.percentOff)
+      {
+        discountValue = subtotal * (cart.coupon.percentOff / 100);
+      }
+    }
+
     const shipping = delivery ? delivery.price : 0;
-    const discount = 0;
+    const total  = subtotal + shipping - discountValue;
     return {
       subtotal,
       shipping,
-      discount,
-      total: subtotal + shipping - discount
+      discount: discountValue,
+      total
     };
   });
 
@@ -71,16 +85,14 @@ export class CartService {
     )
   }
 
-  /**
-   * Sends the cart data to the server to update it.
-   * @param cart - The Cart object to be saved.
-   * @returns A subscription to the HTTP request.
-  */
-  setCart(cart: Cart): Subscription
+  /** Sends the cart data to the server to update it. */
+  setCart(cart: Cart): Observable<Cart>
   {
-    return this.http.post<Cart>(this.baseUrl + 'cart', cart).subscribe({
-      next: cart => this.cart.set(cart)
-    });
+    return this.http.post<Cart>(this.baseUrl + 'cart', cart).pipe(
+      tap(cart => {
+        this.cart.set(cart); 
+      })
+    )
   }
 
    /**
@@ -88,7 +100,7 @@ export class CartService {
    * @param item - The product or cart item to be added.
    * @param quantity - The quantity to be added (default is 1).
    */
-  addItemToCart(item: CartItem | Product, quantity = 1): void
+  async addItemToCart(item: CartItem | Product, quantity = 1): Promise<void>
   {
     const cart = this.cart() ?? this.createCart();
     if(this.isProduct(item)) 
@@ -96,7 +108,7 @@ export class CartService {
       item = this.mapProductToCartItem(item);
     }
     cart.items = this.addOrUpdateItems(cart.items, item, quantity);
-    this.setCart(cart);
+    await firstValueFrom(this.setCart(cart));
   } 
 
   /**
@@ -104,7 +116,7 @@ export class CartService {
    * @param productId - The ID of the product to remove.
    * @param quantity - The quantity to be removed (default is 1).
   */
-  removeItemFromCart(productId: number,quantity = 1): void
+  async removeItemFromCart(productId: number,quantity = 1): Promise<void>
   {
     const cart = this.cart();
     if(!cart) return;
@@ -125,7 +137,7 @@ export class CartService {
       }
       else 
       {
-        this.setCart(cart);
+        await firstValueFrom(this.setCart(cart));
       }
     }
   }
@@ -202,5 +214,15 @@ export class CartService {
     const cart = new Cart();
     localStorage.setItem('cart_id', cart.id);
     return cart;
+  }
+
+  /** 
+   * Sends the cart data to the server to apply a discount using the provided coupon code.
+   * @param code The coupon code to apply.
+   * @returns An observable that resolves to the coupon data.
+  */
+  applyDiscount(code: string): Observable<Coupon>
+  {
+    return this.http.get<Coupon>(this.baseUrl + 'coupons/' + code);
   }
 }
