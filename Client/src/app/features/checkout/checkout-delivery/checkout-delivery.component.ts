@@ -4,6 +4,7 @@ import { MatRadioModule } from '@angular/material/radio';
 import { CurrencyPipe } from '@angular/common';
 import { CartService } from '../../../core/services/cart.service';
 import { DeliveryMethod } from '../../../shared/models/deliveryMethod';
+import { firstValueFrom } from 'rxjs';
 
 /**
  * Component for selecting the delivery method during checkout
@@ -53,14 +54,14 @@ export class CheckoutDeliveryComponent implements OnInit{
    * 
    * @param method The delivery method selected by the user.
   */
-  updateDeliveryMethod(method: DeliveryMethod): void
+  async updateDeliveryMethod(method: DeliveryMethod): Promise<void>
   {
     this.cartService.selectedDelivery.set(method);
     const cart = this.cartService.cart();
     if(cart)
     {
       cart.deliveryMethodId = method.id;
-      this.cartService.setCart(cart);
+      await firstValueFrom(this.cartService.setCart(cart));
       this.deliveryComplete.emit(true);
     }
   }
