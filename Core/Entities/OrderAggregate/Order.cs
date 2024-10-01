@@ -41,6 +41,11 @@ public class Order : BaseEntity
   public decimal Subtotal { get; set; }
 
   /// <summary>
+  /// Gets or sets the discount applied to the order.
+  /// </summary>
+  public decimal Discount { get; set;}
+
+  /// <summary>
   /// The current status of the order.
   /// </summary>
   public OrderStatus Status { get; set; } = OrderStatus.Pending;
@@ -56,6 +61,6 @@ public class Order : BaseEntity
   /// <returns>The total price of the order.</returns>
   public decimal GetTotal()
   {
-    return Subtotal + DeliveryMethod.Price;
+    return Subtotal - Discount + DeliveryMethod.Price ;
   }
 }
