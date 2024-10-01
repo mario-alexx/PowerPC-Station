@@ -53,6 +53,11 @@ public class OrderDto
   public decimal Subtotal { get; set; }
 
   /// <summary>
+  /// Gets or sets the discount applied to the order.
+  /// </summary>
+  public decimal Discount { get; set; }
+
+  /// <summary>
   /// The current status of the order.
   /// </summary>
   public required string Status { get; set; }

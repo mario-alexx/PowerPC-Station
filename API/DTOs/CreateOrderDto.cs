@@ -31,4 +31,9 @@ public class CreateOrderDto
   /// </summary>
   [Required]
   public PaymentSummary PaymentSummary { get; set; } = null!;
+
+  /// <summary>
+  /// Gets or sets the discount applied to the new order.
+  /// </summary>
+  public decimal Discount { get; set; }
 }
